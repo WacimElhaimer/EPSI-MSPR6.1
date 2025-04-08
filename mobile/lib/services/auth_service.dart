@@ -7,7 +7,7 @@ import '../models/user.dart';
 import 'storage_service.dart';
 
 class AuthService {
-  static final String baseUrl = dotenv.env['FLUTTER_API_URL'] ?? 'http://localhost:8000';
+  static final String baseUrl = dotenv.env['FLUTTER_API_URL'] ?? 'http://localhost:53227';
   static AuthService? _instance;
   late final Dio _dio;
   late final StorageService _storageService;
