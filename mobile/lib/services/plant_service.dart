@@ -8,9 +8,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class PlantService {
   final String baseUrl = dotenv.env['FLUTTER_API_URL'] ?? 'http://10.0.2.2:8000';
   late final StorageService _storageService;
+  final http.Client _client;
 
-  static Future<PlantService> init() async {
-    final service = PlantService();
+  PlantService({http.Client? client}) : _client = client ?? http.Client();
+
+  static Future<PlantService> init({http.Client? client}) async {
+    final service = PlantService(client: client);
     service._storageService = await StorageService.init();
     return service;
   }
@@ -52,7 +55,10 @@ class PlantService {
       ));
     }
 
-    final response = await request.send();
+    // For testing purposes, we need to use the client directly
+    // but MultipartRequest doesn't accept a client directly
+    // So we'll use a StreamedResponse directly in tests
+    final response = await _client.send(request);
     final responseString = await response.stream.bytesToString();
 
     if (response.statusCode == 201 || response.statusCode == 200) {
@@ -70,7 +76,7 @@ class PlantService {
     final token = await _storageService.getToken();
     if (token == null) throw Exception('Non authentifié');
 
-    final response = await http.get(
+    final response = await _client.get(
       Uri.parse('$baseUrl/plants/?owner_id=${await _storageService.getUserId()}'),
       headers: {
         'Authorization': 'Bearer $token',
@@ -96,7 +102,7 @@ class PlantService {
     final token = await _storageService.getToken();
     if (token == null) throw Exception('Non authentifié');
 
-    final response = await http.get(
+    final response = await _client.get(
       Uri.parse('$baseUrl/plants/?owner_id=$ownerId'),
       headers: {
         'Authorization': 'Bearer $token',
@@ -122,7 +128,7 @@ class PlantService {
     final token = await _storageService.getToken();
     if (token == null) throw Exception('Non authentifié');
 
-    final response = await http.get(
+    final response = await _client.get(
       Uri.parse('$baseUrl/plants/'),
       headers: {
         'Authorization': 'Bearer $token',
@@ -147,7 +153,7 @@ class PlantService {
     final token = await _storageService.getToken();
     if (token == null) throw Exception('Non authentifié');
 
-    final response = await http.get(
+    final response = await _client.get(
       Uri.parse('$baseUrl/plants/$plantId'),
       headers: {
         'Authorization': 'Bearer $token',

@@ -48,4 +48,8 @@ class StorageService {
   Future<void> clear() async {
     await _prefs.clear();
   }
+
+  Future<void> clearToken() async {
+    await _prefs.remove(tokenKey);
+  }
 } 
