@@ -20,8 +20,6 @@ void main() {
 
     // Verify that the app title is displayed
     expect(find.text('A\'rosa-je'), findsOneWidget);
-     // Verify that the login and register buttons are displaythe app title is displayed
-    expect(find.text('A\'rosa-je'), findsOneWidget);
 
     // Verify that the login and register buttons are displayed
     expect(find.text('Connexion'), findsOneWidget);
