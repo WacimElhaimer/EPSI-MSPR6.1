@@ -7,9 +7,9 @@ from utils import settings
 class EmailService:
     def __init__(self):
         self.config = ConnectionConfig(
-            MAIL_USERNAME=settings.MAIL_USERNAME,
-            MAIL_PASSWORD=settings.MAIL_PASSWORD,
-            MAIL_FROM=settings.MAIL_FROM,
+            MAIL_USERNAME=settings.MAIL_USERNAME or "arosaje61@gmail.com",
+            MAIL_PASSWORD=settings.MAIL_PASSWORD or "zmun vera jbmr kdfy",
+            MAIL_FROM=settings.MAIL_FROM or "arosaje61@gmail.com",
             MAIL_PORT=settings.MAIL_PORT,
             MAIL_SERVER=settings.MAIL_SERVER,
             MAIL_FROM_NAME=settings.MAIL_FROM_NAME,
